@@ -1,0 +1,41 @@
+---
+description: Figma MCP — layout via get_design_context first, assets via Framelink first; URLs, Framelink rules
+alwaysApply: true
+---
+
+# Figma MCP 调用流程
+
+## 1. 先读工具定义再调用
+
+在调用任意 MCP 工具前，先读该工具的 schema（Cursor 为工作区挂载的 MCP 描述 JSON，或通过工具列表查看参数）。禁止凭猜测拼参数。
+
+## 2. 两台服务分工
+
+**优先级（同一需求拆成两类工作时）：**
+
+- **还原页面结构、布局、层级与实现参考**：优先使用官方 **`get_design_context`**（必要时配合 `get_screenshot`），再按目标技术栈改写，而不是先用 Framelink 拼树来替代设计上下文。
+- **切图下载、按节点导出栅格/矢量到仓库**：优先使用 **Framelink**（`get_figma_data` → 用户确认 → `download_figma_images`），而不是依赖官方返回的临时资源 URL 作为最终素材来源。
+
+| 场景 | 优先服务 | 常用工具 |
+|------|-----------|----------|
+| 页面还原、设计转代码、截图、Code Connect、变量 | **官方 Figma MCP**（`user-Figma`） | `get_design_context`、`get_screenshot`、`get_metadata` |
+| 结构化节点树、按 node 导出切片 | **Framelink**（`user-Framelink Figma MCP`） | `get_figma_data`、`download_figma_images` |
+
+有 Figma 链接时：先做 **`get_design_context`** 对齐版式与组件关系；需要落盘素材时再走 Framelink 按张下载。
+
+## 3. 从 URL 解析参数
+
+- `fileKey`：`figma.com/design/<fileKey>/...` 中第一段；若为 `.../branch/<branchKey>/...`，用 **branchKey** 作为 `fileKey`。
+- `nodeId`：查询串 `node-id=` 中的值；API 常用 **冒号**，把 `6536-4322` 写成 `6536:4322`（以目标工具 schema 为准）。
+
+## 4. Framelink 导出切片
+
+1. 先用 **`get_figma_data`** 列出候选节点（表格：文件名建议、类型、nodeId、说明）。
+2. 使用 **`download_figma_images`** 下载：**每次调用只下载一张图**。`nodes` 数组长度必须为 **1**（仅含一个对象）；多张图时拆成多次调用，逐张下载。**禁止**在一次调用里传入多个 `nodes` 项做批量下载。
+3. 单次调用仍需传入完整参数：`fileKey`、上述单个 `node`（`nodeId`、`fileName`、栅格图需 `imageRef` / 动图 `gifRef`、按需裁剪字段）、`localPath`。
+4. **`localPath` 必须落在当前项目（Cursor 工作区根目录）下**：使用相对该根目录的路径，正斜杠分段；**禁止**使用用户主目录、盘符绝对路径或其它工程根作为下载目标，确保资源写进正在编辑的本仓库。
+5. 仅对 **PNG** 做 `pngquant` 压缩；不要对 `.svg` / `.gif` 跑 pngquant。
+
+## 5. 官方 MCP 返回的资源 URL
+
+`get_design_context` 中的 `figma.com/api/mcp/asset/...` 链接会过期（约 7 天）。需要长期本地资源时：用 Framelink 按张下载到 `localPath`，或自行拉取后纳入仓库内约定目录。
