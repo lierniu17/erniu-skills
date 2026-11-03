@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>速查表</title>
+<style>
+  :root{
+    --ink:#1b1b1b; --sub:#5b5b5b; --line:#d8d8d8; --soft:#f4f4f2; --accent:#1f6f5c;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:-apple-system,"PingFang SC","Helvetica Neue",Arial,sans-serif;
+    color:var(--ink); background:#fff; padding:16mm 14mm;
+    font-size:10.5pt; line-height:1.5;
+  }
+  header{display:flex;align-items:flex-end;justify-content:space-between;
+    border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:10px}
+  h1{font-size:19pt;letter-spacing:.5px}
+  .tag{font-size:8.5pt;color:var(--sub)}
+  .oneliner{margin:6px 0 12px;font-size:10.5pt;color:var(--sub);
+    border-left:3px solid var(--accent);padding-left:8px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px}
+  section{border:1px solid var(--line);border-radius:4px;padding:8px 10px;break-inside:avoid}
+  section.wide{grid-column:1 / -1}
+  h2{font-size:10pt;text-transform:uppercase;letter-spacing:1px;color:var(--accent);
+    padding-bottom:4px;margin-bottom:6px;border-bottom:1px dashed var(--line)}
+  ul{list-style:none}
+  li{padding-left:12px;position:relative;margin-bottom:3px}
+  li::before{content:"·";position:absolute;left:3px;color:var(--accent);font-weight:700}
+  dl dt{font-weight:600}
+  dl dd{margin:0 0 5px 0;color:var(--sub)}
+  table{width:100%;border-collapse:collapse;font-size:9.5pt}
+  th,td{text-align:left;padding:3px 5px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:var(--soft);font-weight:600}
+  pre{background:var(--soft);border-radius:3px;padding:6px 8px;font-size:9pt;line-height:1.45;
+    overflow-x:auto;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:9.5pt}
+  .pit li::before{content:"✕";color:#b4372e;font-size:8pt}
+  .search li::before{content:"→"}
+  footer{margin-top:10px;border-top:1px solid var(--line);padding-top:5px;
+    font-size:8pt;color:var(--sub);display:flex;justify-content:space-between}
+  @page{size:A4;margin:10mm}
+  @media print{
+    body{padding:0;font-size:10pt}
+    section{box-shadow:none}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1><!-- 主题名称 -->主题速查表</h1>
+  <div class="tag">v1 · <!-- 生成日期 -->2026-11-03</div>
+</header>
+
+<p class="oneliner"><!-- 一句话说清这个主题是什么、解决什么问题 --></p>
+
+<div class="grid">
+
+  <!-- 1. 核心定义 3-5 条 -->
+  <section>
+    <h2>核心定义</h2>
+    <dl>
+      <dt>术语一</dt>
+      <dd>一句话定义，不用术语解释术语。</dd>
+      <dt>术语二</dt>
+      <dd>一句话定义。</dd>
+    </dl>
+  </section>
+
+  <!-- 2. 决策规则 -->
+  <section>
+    <h2>决策规则</h2>
+    <table>
+      <tr><th>情况</th><th>用哪个</th><th>为什么</th></tr>
+      <tr><td>条件 A</td><td>方案 1</td><td>原因</td></tr>
+      <tr><td>条件 B</td><td>方案 2</td><td>原因</td></tr>
+    </table>
+  </section>
+
+  <!-- 3. 关键公式 / 命令 / 参数 -->
+  <section>
+    <h2>关键公式 / 命令</h2>
+    <pre><code># 能直接复制跑的最小片段
+command --flag=value</code></pre>
+    <ul>
+      <li><code>关键参数</code>：作用与默认值</li>
+    </ul>
+  </section>
+
+  <!-- 4. 最小可跑示例 -->
+  <section>
+    <h2>最小可跑示例</h2>
+    <pre><code>// 10 行以内，复制即用
+example();</code></pre>
+  </section>
+
+  <!-- 5. 五大坑 -->
+  <section class="wide">
+    <h2>五大坑</h2>
+    <ul class="pit">
+      <li><strong>坑一</strong> → 怎么避开</li>
+      <li><strong>坑二</strong> → 怎么避开</li>
+      <li><strong>坑三</strong> → 怎么避开</li>
+    </ul>
+  </section>
+
+  <!-- 6. 检索线索 -->
+  <section class="wide">
+    <h2>检索线索（忘了去哪查）</h2>
+    <ul class="search">
+      <li>查 X → <code>官方文档 / 关键词</code></li>
+      <li>查 Y → <code>关键词</code></li>
+    </ul>
+  </section>
+
+</div>
+
+<footer>
+  <span>sources: <!-- 主要来源 --></span>
+  <span>review: D+1 / D+2 / D+4 / D+7 / D+15 / D+30</span>
+</footer>
+
+</body>
+</html>
