@@ -1,0 +1,5 @@
+.env
+figma_export/
+.tmp/
+__pycache__/
+*.pyc

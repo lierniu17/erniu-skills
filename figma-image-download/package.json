@@ -1,0 +1,8 @@
+{
+  "name": "figma-image-download-skill",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "ai-renamer": "^1.0.24"
+  }
+}
