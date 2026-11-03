@@ -1,0 +1,13 @@
+{
+  "name": "font-package-split",
+  "private": true,
+  "type": "module",
+  "description": "Font subset + WOFF2 + cn-font-split scripts",
+  "scripts": {
+    "subset-font": "python3 scripts/subset.py --help",
+    "split-for-web": "node scripts/split-for-web.mjs --help"
+  },
+  "dependencies": {
+    "cn-font-split": "^7.4.1"
+  }
+}
